@@ -1,27 +1,73 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+const { hashPass } = require('../helpers/bcrypt');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      User.hasMany(models.Canvas);
     }
   }
-  User.init({
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    tier: DataTypes.STRING,
-    profilePic: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'User',
-  });
+  User.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Name required'
+          },
+          notEmpty: {
+            msg: 'Name required'
+          }
+        }
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: {
+          msg: 'Email already exist'
+        },
+        validate: {
+          notNull: {
+            msg: 'Name required'
+          },
+          notEmpty: {
+            msg: 'Name required'
+          }
+        }
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Password required'
+          },
+          notEmpty: {
+            msg: 'Password required'
+          },
+          isEightChar(value) {
+            if (value.length < 8) {
+              throw new Error('Password at least 8 characters');
+            }
+          }
+        }
+      },
+      tier: {
+        type: DataTypes.STRING,
+        defaultValue: 'Free'
+      },
+      profilePic: DataTypes.STRING
+    },
+    {
+      hooks: {
+        beforeCreate(model) {
+          model.password = hashPass(model.password);
+        }
+      },
+      sequelize,
+      modelName: 'User'
+    }
+  );
   return User;
 };
