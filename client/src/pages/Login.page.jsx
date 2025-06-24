@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TCh2, TCp } from '@/components/Typography';
 import { Eye, EyeOff, LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Link } from 'react-router';
+import { main_server } from '@/helpers/http-client';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,6 +18,29 @@ export default function Login() {
     e.preventDefault();
     // TODO: handle login logic
   };
+
+  useEffect(() => {
+    async function handleCredentialResponse(response) {
+      try {
+        const { data } = await main_server.post('/login/google', {
+          token: response.credential
+        });
+        //! Handle delete this line in production
+        console.log('Login successful:', data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    google.accounts.id.initialize({
+      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+      callback: handleCredentialResponse
+    });
+    google.accounts.id.renderButton(document.getElementById('googleSignIn'), {
+      theme: 'outline',
+      size: 'large'
+    });
+  }, []);
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-br">
@@ -69,11 +94,16 @@ export default function Login() {
         <Button type="submit" className="mt-2 flex items-center justify-center gap-2">
           <LogIn size={18} /> Login
         </Button>
+
+        <div className="flex items-center justify-center">
+          <div id="googleSignIn" />
+        </div>
+
         <TCp className="text-center text-gray-500 text-sm mt-2">
           Don&apos;t have an account?{' '}
-          <a href="#" className="underline hover:text-gray-700">
+          <Link to={'/register'} className="underline hover:text-gray-700">
             Sign up
-          </a>
+          </Link>
         </TCp>
       </form>
     </main>
