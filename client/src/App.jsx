@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router';
 import Home from './pages/Home.page';
 import Navbar from './components/Navbar';
 import Login from './pages/Login.page';
+import Pricings from './pages/Pricings.page';
 
 const PublicLayout = () => {
   return (
@@ -54,7 +55,7 @@ function App() {
         <Routes>
           <Route element={<PublicLayout />}>
             <Route path="/" element={<Home />} />
-            <Route path="/pricings" element={<h1 className="mt-20 text-9xl">Ini pricings</h1>} />
+            <Route path="/pricings" element={<Pricings />} />
           </Route>
 
           <Route element={<AuthLayout />}>
