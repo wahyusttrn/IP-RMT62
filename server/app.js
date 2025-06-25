@@ -16,6 +16,7 @@ app.get('/', (req, res) => {
 
 const UserController = require('./controllers/UserController');
 const CanvasController = require('./controllers/CanvasController');
+const GeminiController = require('./controllers/GeminiController');
 const errorHandler = require('./middlewares/errorHandler');
 const authentication = require('./middlewares/authentication');
 const { guardOwnerOnly } = require('./middlewares/authorization');
@@ -23,12 +24,15 @@ const { guardOwnerOnly } = require('./middlewares/authorization');
 app.post('/login/google', UserController.googleLogin);
 
 app.use(authentication);
+
 app.get('/profile', UserController.getProfileInfo);
 app.get('/my-scenes', CanvasController.getMyScenes);
 app.post('/my-scenes', CanvasController.postMyScene);
 
 app.put('/my-scenes/:id', guardOwnerOnly, CanvasController.putMyScene);
 app.delete('/my-scenes/:id', guardOwnerOnly, CanvasController.deleteMyScene);
+
+app.post('/gemini/build', GeminiController.geminiBuild);
 
 app.use(errorHandler);
 
