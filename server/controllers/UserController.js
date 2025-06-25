@@ -39,4 +39,12 @@ module.exports = class UserController {
       next(error);
     }
   }
+  static async getProfileInfo(req, res, next) {
+    try {
+      const { user } = req;
+      res.status(200).json({ user });
+    } catch (error) {
+      next(error);
+    }
+  }
 };

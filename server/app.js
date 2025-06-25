@@ -23,7 +23,7 @@ const { guardOwnerOnly } = require('./middlewares/authorization');
 app.post('/login/google', UserController.googleLogin);
 
 app.use(authentication);
-
+app.get('/profile', UserController.getProfileInfo);
 app.get('/my-scenes', CanvasController.getMyScenes);
 app.post('/my-scenes', CanvasController.postMyScene);
 

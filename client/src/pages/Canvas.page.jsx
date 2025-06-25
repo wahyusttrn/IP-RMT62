@@ -37,7 +37,7 @@ export default function Canvas() {
     //   headers: { 'Content-Type': 'application/json' },
     //   body: JSON.stringify({ data: scene })
     // });
-    console.log({ scene });
+    console.log(JSON.stringify(scene));
   };
 
   return (
