@@ -19,7 +19,7 @@ export default function Login() {
         });
         //! toast
         localStorage.setItem('access_token', data.access_token);
-        navigate('/');
+        navigate('/collections');
       } catch (error) {
         //! toast
         console.log(error);

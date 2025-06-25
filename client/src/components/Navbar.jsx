@@ -22,27 +22,32 @@ export default function Navbar() {
         >
           Pricings
         </NavLink>
-        <NavLink
-          to={'/my-canvas'}
-          className="text-gray-700 hover:text-gray-900 hover:bg-gray-200/80 font-medium transition-colors px-2 py-1 rounded-md"
-          onClick={() => setOpen(false)}
-        >
-          My Canvas
-        </NavLink>
-        <NavLink
-          to={'/login'}
-          className="text-gray-700 hover:text-gray-900 hover:bg-gray-200/80 font-medium transition-colors px-2 py-1 rounded-md"
-          onClick={() => setOpen(false)}
-        >
-          Login
-        </NavLink>
-        <NavLink
-          to={'/profile'}
-          className="w-9 h-9 rounded-full overflow-hidden border-2 border-gray-300 bg-gray-100 flex items-center justify-center"
-          onClick={() => setOpen(false)}
-        >
-          <img src="https://i.pravatar.cc/36" alt="Profile" className="w-full h-full object-cover" />
-        </NavLink>
+        {localStorage.getItem('access_token') ? (
+          <>
+            <NavLink
+              to={'/collections'}
+              className="text-gray-700 hover:text-gray-900 hover:bg-gray-200/80 font-medium transition-colors px-2 py-1 rounded-md"
+              onClick={() => setOpen(false)}
+            >
+              Collections
+            </NavLink>
+            <NavLink
+              to={'/profile'}
+              className="w-9 h-9 rounded-full overflow-hidden border-2 border-gray-300 bg-gray-100 flex items-center justify-center"
+              onClick={() => setOpen(false)}
+            >
+              <img src="https://i.pravatar.cc/36" alt="Profile" className="w-full h-full object-cover" />
+            </NavLink>
+          </>
+        ) : (
+          <NavLink
+            to={'/login'}
+            className="text-gray-700 hover:text-gray-900 hover:bg-gray-200/80 font-medium transition-colors px-2 py-1 rounded-md"
+            onClick={() => setOpen(false)}
+          >
+            Login
+          </NavLink>
+        )}
       </>
     );
   };
