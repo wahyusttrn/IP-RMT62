@@ -16,8 +16,14 @@ app.get('/', (req, res) => {
 
 const UserController = require('./controllers/UserController');
 const errorHandler = require('./middlewares/errorHandler');
+const authentication = require('./middlewares/authentication');
+const CanvasController = require('./controllers/CanvasController');
 
 app.post('/login/google', UserController.googleLogin);
+
+app.use(authentication);
+
+app.get('/my-scenes', CanvasController.getMyScenes);
 
 app.use(errorHandler);
 

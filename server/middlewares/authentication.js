@@ -11,7 +11,11 @@ module.exports = async function authentication(req, res, next) {
     const [type, token] = bearerToken.split(' ');
     const data = verifyToken(token);
 
-    const user = await User.findByPk(data.id);
+    const user = await User.findByPk(data.id, {
+      attributes: {
+        exclude: ['password']
+      }
+    });
     if (!user) {
       throw { name: 'Unauthorized', message: 'Invalid Token' };
     }
