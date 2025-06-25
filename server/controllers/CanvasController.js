@@ -18,6 +18,7 @@ module.exports = class CanvasController {
     try {
       const { user } = req;
       const { title } = req.body;
+
       const canvas = await Canvas.create({ title, UserId: user.id });
       res.status(200).json({ message: 'Success post Collections', canvas });
     } catch (error) {
@@ -27,8 +28,11 @@ module.exports = class CanvasController {
   static async putMyScene(req, res, next) {
     try {
       const { user } = req;
-      const { id } = req.params;
-      res.status(200).json({ message: 'Success update Collections', user, id });
+      const { title, scene } = req.body;
+      const { canvas } = req;
+
+      const updatedCanvas = await canvas.update({ title, scene, UserId: user.id });
+      res.status(200).json({ message: 'Success update Collections', updatedCanvas });
     } catch (error) {
       next(error);
     }
