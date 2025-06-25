@@ -20,7 +20,7 @@ module.exports = class CanvasController {
       const { title } = req.body;
 
       const canvas = await Canvas.create({ title, UserId: user.id });
-      res.status(200).json({ message: 'Success post Collections', canvas });
+      res.status(201).json({ message: 'Success post Collections', canvas });
     } catch (error) {
       next(error);
     }
@@ -39,9 +39,9 @@ module.exports = class CanvasController {
   }
   static async deleteMyScene(req, res, next) {
     try {
-      const { user } = req;
-      const { id } = req.params;
-      res.status(200).json({ message: 'Success delete Collections', user, id });
+      const { canvas } = req;
+      await canvas.destroy();
+      res.status(200).json({ message: `Success delete canvas ${canvas.title}` });
     } catch (error) {
       next(error);
     }
