@@ -4,6 +4,7 @@ import Home from './pages/Home.page';
 import Navbar from './components/Navbar';
 import Login from './pages/Login.page';
 import Pricings from './pages/Pricings.page';
+import Collections from './pages/Collections.page';
 
 const PublicLayout = () => {
   return (
@@ -64,7 +65,7 @@ function App() {
 
           <Route element={<MainLayout />}>
             <Route path="/profile" element={<h1 className="mt-20 text-9xl">Ini profile</h1>} />
-            <Route path="/collections" element={<h1 className="mt-20 text-9xl">Ini collections</h1>} />
+            <Route path="/collections" element={<Collections />} />
             <Route path="/collections/:id" element={<h1 className="mt-20 text-9xl">Ini collections /:id</h1>} />
           </Route>
         </Routes>
