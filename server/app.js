@@ -24,6 +24,9 @@ app.post('/login/google', UserController.googleLogin);
 app.use(authentication);
 
 app.get('/my-scenes', CanvasController.getMyScenes);
+app.post('/my-scenes', CanvasController.postMyScene);
+app.put('/my-scenes/:id', CanvasController.putMyScene);
+app.delete('/my-scenes/:id', CanvasController.deleteMyScene);
 
 app.use(errorHandler);
 
