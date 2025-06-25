@@ -36,7 +36,7 @@ module.exports = class UserController {
       const access_token = signToken({ id: user.id });
       res.status(200).json({ message: `Welcome, ${user.name}`, access_token });
     } catch (error) {
-      console.log(error);
+      next(error);
     }
   }
 };

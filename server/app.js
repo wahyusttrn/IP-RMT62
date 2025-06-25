@@ -15,7 +15,10 @@ app.get('/', (req, res) => {
 });
 
 const UserController = require('./controllers/UserController');
+const errorHandler = require('./middlewares/errorHandler');
 
 app.post('/login/google', UserController.googleLogin);
+
+app.use(errorHandler);
 
 module.exports = app;
