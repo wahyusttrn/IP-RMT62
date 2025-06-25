@@ -7,6 +7,9 @@ module.exports = class CanvasController {
       const collections = await Canvas.findAll({
         where: {
           UserId: user.id
+        },
+        attributes: {
+          exclude: ['scene']
         }
       });
       res.status(200).json({ message: 'Success fetch Collections', collections });
@@ -42,6 +45,14 @@ module.exports = class CanvasController {
       const { canvas } = req;
       await canvas.destroy();
       res.status(200).json({ message: `Success delete canvas ${canvas.title}` });
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async getMySceneById(req, res, next) {
+    try {
+      const { canvas } = req;
+      res.status(200).json({ message: 'Success fetch Canvas', canvas });
     } catch (error) {
       next(error);
     }

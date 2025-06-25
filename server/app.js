@@ -31,6 +31,7 @@ app.post('/my-scenes', CanvasController.postMyScene);
 
 app.put('/my-scenes/:id', guardOwnerOnly, CanvasController.putMyScene);
 app.delete('/my-scenes/:id', guardOwnerOnly, CanvasController.deleteMyScene);
+app.get('/my-scenes/:id', guardOwnerOnly, CanvasController.getMySceneById);
 
 app.post('/gemini/build', GeminiController.geminiBuild);
 
