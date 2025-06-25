@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login.page';
 import Pricings from './pages/Pricings.page';
 import Collections from './pages/Collections.page';
+import Canvas from './pages/Canvas.page';
 
 const PublicLayout = () => {
   return (
@@ -49,6 +50,22 @@ const MainLayout = () => {
   }
 };
 
+const CanvasLayout = () => {
+  if (localStorage.getItem('access_token')) {
+    return (
+      <>
+        <Outlet />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Navigate to={'/login'} />
+      </>
+    );
+  }
+};
+
 function App() {
   return (
     <>
@@ -66,7 +83,10 @@ function App() {
           <Route element={<MainLayout />}>
             <Route path="/profile" element={<h1 className="mt-20 text-9xl">Ini profile</h1>} />
             <Route path="/collections" element={<Collections />} />
-            <Route path="/collections/:id" element={<h1 className="mt-20 text-9xl">Ini collections /:id</h1>} />
+          </Route>
+
+          <Route element={<CanvasLayout />}>
+            <Route path="/collections/canvas/:id" element={<Canvas />} />
           </Route>
         </Routes>
       </BrowserRouter>
