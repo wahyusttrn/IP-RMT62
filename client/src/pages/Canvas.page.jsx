@@ -66,8 +66,6 @@ export default function Canvas() {
         </Button>
       </div>
 
-      <h1>### {initialValue.join()}</h1>
-
       <div className="flex-1">
         <Excalidraw
           initialData={{

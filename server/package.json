@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "",
+    "test": "npm i && npx sequelize db:drop --env test && npx sequelize db:create --env test && npx sequelize db:migrate --env test && jest --detectOpenHandles --verbose --silent --coverage",
     "dev": "nodemon bin/www"
   },
   "keywords": [],
@@ -22,7 +22,9 @@
   },
   "devDependencies": {
     "dotenv": "^16.5.0",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.10",
-    "sequelize-cli": "^6.6.3"
+    "sequelize-cli": "^6.6.3",
+    "supertest": "^7.1.1"
   }
 }
