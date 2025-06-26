@@ -1,9 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu } from 'lucide-react';
 import { NavLink } from 'react-router';
+import { main_server } from '@/helpers/http-client';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState({
+    name: ''
+  });
+
+  useEffect(() => {
+    const getProfile = async () => {
+      const { data } = await main_server.get('/profile', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      });
+      setUser(data.user);
+    };
+
+    getProfile();
+  }, []);
 
   const Tabs = () => {
     return (
@@ -36,7 +53,7 @@ export default function Navbar() {
               className="w-9 h-9 rounded-full overflow-hidden border-2 border-gray-300 bg-gray-100 flex items-center justify-center"
               onClick={() => setOpen(false)}
             >
-              <img src="https://i.pravatar.cc/36" alt="Profile" className="w-full h-full object-cover" />
+              <img alt={user.name[0]} className="w-full h-full object-cover" />
             </NavLink>
           </>
         ) : (
