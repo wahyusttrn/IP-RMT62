@@ -6,18 +6,34 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, Dialog
 import { TCh2 } from '@/components/Typography';
 import { Plus } from 'lucide-react';
 import { main_server } from '@/helpers/http-client';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 export default function Collections() {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [collections, setCollections] = useState([]);
+  const navigate = useNavigate();
 
-  const handleCreate = (e) => {
+  const handleCreate = async (e) => {
     e.preventDefault();
-    // TODO: handle create collection
-    setOpen(false);
-    setTitle('');
+    try {
+      const response = await main_server.post(
+        '/my-scenes',
+        {
+          title
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          }
+        }
+      );
+      console.log(response.data.canvas);
+      navigate(`/collections/canvas/${response.data.canvas.id}`);
+      setOpen(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
