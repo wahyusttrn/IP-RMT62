@@ -6,6 +6,7 @@ import Login from './pages/Login.page';
 import Pricings from './pages/Pricings.page';
 import Collections from './pages/Collections.page';
 import Canvas from './pages/Canvas.page';
+import Profile from './pages/Profile.page';
 
 const PublicLayout = () => {
   return (
@@ -81,7 +82,7 @@ function App() {
           </Route>
 
           <Route element={<MainLayout />}>
-            <Route path="/profile" element={<h1 className="mt-20 text-9xl">Ini profile</h1>} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/collections" element={<Collections />} />
           </Route>
 

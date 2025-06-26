@@ -1,28 +1,37 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/col-card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { TCh2 } from '@/components/Typography';
 import { Plus } from 'lucide-react';
-
-const collections = [
-  { title: 'Project Alpha', lastEdited: '2025-06-20 14:32' },
-  { title: 'Design Sprint', lastEdited: '2025-06-18 09:10' },
-  { title: 'Research Notes', lastEdited: '2025-06-10 17:45' }
-];
+import { main_server } from '@/helpers/http-client';
+import { Link } from 'react-router';
 
 export default function Collections() {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
+  const [collections, setCollections] = useState([]);
 
-  // Placeholder for create logic
   const handleCreate = (e) => {
     e.preventDefault();
     // TODO: handle create collection
     setOpen(false);
     setTitle('');
   };
+
+  useEffect(() => {
+    const getCollections = async () => {
+      const { data } = await main_server.get('/my-scenes', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      });
+      setCollections(data.collections);
+    };
+
+    getCollections();
+  }, []);
 
   return (
     <main className="min-h-screen bg-white px-4 mt-24">
@@ -54,17 +63,19 @@ export default function Collections() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {collections.map((col) => (
-            <Card key={col.title} className="bg-white border border-gray-200">
-              <div className="w-full h-32 bg-gray-100 rounded-t-md flex items-center justify-center">
-                <span className="text-gray-300 text-4xl">📄</span>
-              </div>
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold text-black">{col.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-xs text-gray-500">Last edited: {col.lastEdited}</div>
-              </CardContent>
-            </Card>
+            <Link to={`/collections/canvas/${col.id}`} key={col.id}>
+              <Card className="bg-white border border-gray-200">
+                <div className="w-full h-32 bg-gray-100 rounded-t-md flex items-center justify-center">
+                  <span className="text-gray-300 text-4xl">{col.title[0].toUpperCase()}</span>
+                </div>
+                <CardHeader>
+                  <CardTitle className="text-lg font-semibold text-black">{col.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-xs text-gray-500">Last edited: {new Date().toDateString(col.updatedAt)}</div>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
       </div>
