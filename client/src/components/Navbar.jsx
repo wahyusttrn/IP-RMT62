@@ -53,7 +53,7 @@ export default function Navbar() {
               className="w-9 h-9 rounded-full overflow-hidden border-2 border-gray-300 bg-gray-100 flex items-center justify-center"
               onClick={() => setOpen(false)}
             >
-              <img alt={user.name[0]} className="w-full h-full object-cover" />
+              <img src={user.profilePic} alt={user.name[0]} className="w-full h-full object-cover" />
             </NavLink>
           </>
         ) : (
