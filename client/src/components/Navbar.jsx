@@ -1,26 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Menu } from 'lucide-react';
 import { NavLink } from 'react-router';
-import { main_server } from '@/helpers/http-client';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProfile } from '@/store/profile';
 
 export default function Navbar() {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState({
-    name: ''
-  });
+  const { user } = useSelector((state) => state.profile);
 
   useEffect(() => {
-    const getProfile = async () => {
-      const { data } = await main_server.get('/profile', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-      });
-      setUser(data.user);
-    };
-
-    getProfile();
-  }, []);
+    dispatch(fetchProfile());
+  }, [dispatch]);
 
   const Tabs = () => {
     return (

@@ -8,21 +8,16 @@ import { Plus } from 'lucide-react';
 import { main_server } from '@/helpers/http-client';
 import { Link, useNavigate } from 'react-router';
 import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem } from '@/components/ui/context-menu';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCollection } from '@/store/collection';
 
 export default function Collections() {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
-  const [collections, setCollections] = useState([]);
   const navigate = useNavigate();
 
-  const getCollections = async () => {
-    const { data } = await main_server.get('/my-scenes', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`
-      }
-    });
-    setCollections(data.collections);
-  };
+  const dispatch = useDispatch();
+  const { collection } = useSelector((state) => state.collection);
 
   const handleCreate = async (e) => {
     e.preventDefault();
@@ -54,15 +49,15 @@ export default function Collections() {
         }
       });
       console.log(response);
-      getCollections();
+      dispatch(fetchCollection());
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getCollections();
-  }, []);
+    dispatch(fetchCollection());
+  }, [dispatch]);
 
   return (
     <main className="min-h-screen bg-white px-4 mt-24">
@@ -93,7 +88,7 @@ export default function Collections() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {collections.map((col) => (
+          {collection.map((col) => (
             <ContextMenu key={col.id}>
               <ContextMenuTrigger asChild>
                 <Link to={`/collections/canvas/${col.id}`}>

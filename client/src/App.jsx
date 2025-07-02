@@ -7,6 +7,8 @@ import Pricings from './pages/Pricings.page';
 import Collections from './pages/Collections.page';
 import Canvas from './pages/Canvas.page';
 import Profile from './pages/Profile.page';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 const PublicLayout = () => {
   return (
@@ -69,7 +71,7 @@ const CanvasLayout = () => {
 
 function App() {
   return (
-    <>
+    <Provider store={store}>
       <BrowserRouter>
         <Routes>
           <Route element={<PublicLayout />}>
@@ -91,7 +93,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </Provider>
   );
 }
 
