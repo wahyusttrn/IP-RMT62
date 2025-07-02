@@ -3,28 +3,19 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { TCh2, TCh4 } from '@/components/Typography';
 import { Mail, User, Star } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { main_server } from '@/helpers/http-client';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProfile } from '../store/profile';
 
 export default function Profile() {
-  const [user, setUser] = useState({
-    name: ''
-  });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.profile);
 
   useEffect(() => {
-    const getProfile = async () => {
-      const { data } = await main_server.get('/profile', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-      });
-      setUser(data.user);
-    };
-
-    getProfile();
-  }, []);
+    dispatch(fetchProfile());
+  }, [dispatch]);
 
   const handleLogout = () => {
     localStorage.removeItem('access_token');
